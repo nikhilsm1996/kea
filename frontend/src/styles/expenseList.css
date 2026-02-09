@@ -1,0 +1,64 @@
+.expense-list {
+  margin-top: 20px;
+}
+
+.expense-list-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.expense-list-header h4 {
+  font-size: 16px;
+  font-weight: 500;
+  margin: 0;
+  color: #fff;
+}
+
+.expense-loading,
+.no-expenses {
+  color: #999;
+  font-size: 14px;
+  padding: 20px 0;
+  text-align: center;
+}
+
+.expense-table-header {
+  display: grid;
+  grid-template-columns: 1fr 120px 150px 80px;
+  gap: 16px;
+  padding: 12px 16px;
+  background: #2a2a2a;
+  border-radius: 8px 8px 0 0;
+  border-bottom: 1px solid #3a3a3a;
+}
+
+.header-cell {
+  font-size: 11px;
+  color: #999;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  font-weight: 500;
+}
+
+.header-cell.description {
+  text-align: left;
+}
+
+.header-cell.category {
+  text-align: center;
+}
+
+.header-cell.amount {
+  text-align: right;
+}
+
+.header-cell.actions {
+  text-align: center;
+}
+
+.expense-rows {
+  background: #2a2a2a;
+  border-radius: 0 0 8px 8px;
+}

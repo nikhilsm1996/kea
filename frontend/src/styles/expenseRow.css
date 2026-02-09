@@ -1,0 +1,139 @@
+.expense-row {
+  display: grid;
+  grid-template-columns: 1fr 120px 150px 80px;
+  gap: 16px;
+  padding: 16px;
+  border-bottom: 1px solid #3a3a3a;
+  align-items: center;
+  transition: background 0.2s;
+}
+
+.expense-row:hover {
+  background: #333;
+}
+
+.expense-row:last-child {
+  border-bottom: none;
+}
+
+.expense-cell {
+  color: #fff;
+  font-size: 14px;
+}
+
+.expense-cell.description {
+  text-align: left;
+}
+
+.expense-cell.category {
+  text-align: center;
+}
+
+.expense-cell.amount {
+  text-align: right;
+  font-weight: 500;
+}
+
+.category-badge {
+  font-size: 13px;
+  font-weight: 400;
+}
+
+.expense-actions {
+  display: flex;
+  gap: 4px;
+  justify-content: center;
+  align-items: center;
+}
+
+.btn-icon {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 6px;
+  border-radius: 4px;
+  font-size: 16px;
+  color: #999;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-icon:hover {
+  background: #444;
+  color: #fff;
+}
+
+/* Editing state */
+.expense-row.editing {
+  grid-template-columns: 1fr 120px 150px 80px;
+  background: #333;
+  padding: 12px 16px;
+}
+
+.edit-input,
+.edit-select {
+  background: #2a2a2a;
+  border: 1px solid #4a4a4a;
+  border-radius: 6px;
+  padding: 8px 12px;
+  color: #fff;
+  font-size: 14px;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.edit-input:focus,
+.edit-select:focus {
+  border-color: #d97748;
+}
+
+.edit-input.description {
+  width: 100%;
+}
+
+.edit-input.amount {
+  width: 100%;
+  text-align: right;
+}
+
+.edit-select {
+  width: 120px;
+}
+
+.edit-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.btn-save,
+.btn-cancel {
+  padding: 6px 12px;
+  border: none;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.btn-save {
+  background: #d97748;
+  color: #fff;
+}
+
+.btn-save:hover {
+  background: #e88a5a;
+}
+
+.btn-cancel {
+  background: transparent;
+  color: #999;
+  border: 1px solid #4a4a4a;
+}
+
+.btn-cancel:hover {
+  background: #3a3a3a;
+  color: #fff;
+}

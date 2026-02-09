@@ -1,0 +1,116 @@
+.add-expense-trigger {
+  margin-top: 20px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.btn-add-expense {
+  background: #d97748;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 18px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: background 0.2s;
+}
+
+.btn-add-expense:hover {
+  background: #e88a5a;
+}
+
+.add-expense-form {
+  margin-top: 20px;
+  background: #2a2a2a;
+  border: 1px solid #3a3a3a;
+  border-radius: 8px;
+  padding: 20px;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.form-group label {
+  font-size: 12px;
+  color: #999;
+  font-weight: 500;
+}
+
+.form-input,
+.form-select {
+  background: #1a1a1a;
+  border: 1px solid #3a3a3a;
+  border-radius: 6px;
+  padding: 10px 12px;
+  color: #fff;
+  font-size: 14px;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.form-input:focus,
+.form-select:focus {
+  border-color: #d97748;
+}
+
+.form-input::placeholder {
+  color: #666;
+}
+
+.form-select {
+  cursor: pointer;
+}
+
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  padding-top: 16px;
+  border-top: 1px solid #3a3a3a;
+}
+
+.btn-cancel-form,
+.btn-submit-form {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-cancel-form {
+  background: transparent;
+  color: #999;
+  border: 1px solid #3a3a3a;
+}
+
+.btn-cancel-form:hover {
+  background: #333;
+  color: #fff;
+  border-color: #4a4a4a;
+}
+
+.btn-submit-form {
+  background: #d97748;
+  color: #fff;
+}
+
+.btn-submit-form:hover {
+  background: #e88a5a;
+}

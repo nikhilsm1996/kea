@@ -1,0 +1,144 @@
+.modal-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.75);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  backdrop-filter: blur(4px);
+}
+
+.modal-container {
+  background: #2a2a2a;
+  border: 1px solid #3a3a3a;
+  border-radius: 12px;
+  width: 90%;
+  max-width: 500px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+  animation: modalSlideIn 0.2s ease-out;
+}
+
+@keyframes modalSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 24px;
+  border-bottom: 1px solid #3a3a3a;
+}
+
+.modal-header h3 {
+  font-size: 18px;
+  font-weight: 500;
+  margin: 0;
+  color: #fff;
+}
+
+.btn-close {
+  background: transparent;
+  border: none;
+  color: #999;
+  font-size: 20px;
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: 4px;
+  transition: all 0.2s;
+  line-height: 1;
+}
+
+.btn-close:hover {
+  background: #3a3a3a;
+  color: #fff;
+}
+
+.modal-body {
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.modal-form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.modal-form-group label {
+  font-size: 13px;
+  color: #d4a574;
+  font-weight: 500;
+}
+
+.modal-input {
+  background: #1a1a1a;
+  border: 1px solid #3a3a3a;
+  border-radius: 8px;
+  padding: 12px 14px;
+  color: #fff;
+  font-size: 14px;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.modal-input:focus {
+  border-color: #d97748;
+}
+
+.modal-input::placeholder {
+  color: #666;
+}
+
+.modal-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  padding: 20px 24px;
+  border-top: 1px solid #3a3a3a;
+}
+
+.btn-modal-cancel,
+.btn-modal-submit {
+  padding: 10px 24px;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-modal-cancel {
+  background: transparent;
+  color: #999;
+  border: 1px solid #3a3a3a;
+}
+
+.btn-modal-cancel:hover {
+  background: #333;
+  color: #fff;
+  border-color: #4a4a4a;
+}
+
+.btn-modal-submit {
+  background: #d97748;
+  color: #fff;
+}
+
+.btn-modal-submit:hover {
+  background: #e88a5a;
+}
