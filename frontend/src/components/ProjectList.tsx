@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import ProjectCard from "./ProjectCard";
 import AddProjectModal from "./AddProjectModal";
+import "../styles/projectList.css";
 
 interface Project {
   id: number;
@@ -34,22 +35,30 @@ const ProjectList = () => {
     }
   };
 
-  const handleProjectCreated = (project: Project) => {
-    setProjects((prev) => [...prev, project]);
+  const handleProjectCreated = (
+    project: Omit<Project, "totalExpenses" | "remainingBudget">,
+  ) => {
+    const projectWithTotals = {
+      ...project,
+      totalExpenses: 0,
+      remainingBudget: project.estimatedBudget,
+    };
+
+    setProjects((prev) => [...prev, projectWithTotals]);
   };
 
-  if (loading) return <p>Loading projects...</p>;
-  if (error) return <p>{error}</p>;
-  if (projects.length === 0) return <p>No projects found</p>;
+  if (loading) return <p className="status-message">Loading projects...</p>;
+  if (error) return <p className="status-message error">{error}</p>;
 
   return (
-    <div>
-      <button
-        onClick={() => setShowModal(true)}
-        style={{ marginBottom: "20px", padding: "8px 12px" }}
-      >
-        Add Project
-      </button>
+    <div className="project-list-container">
+      <div className="project-list-header">
+        <h1>Projects</h1>
+        <button className="btn-add-project" onClick={() => setShowModal(true)}>
+          <span className="plus-icon">+</span>
+          Add Project
+        </button>
+      </div>
 
       {showModal && (
         <AddProjectModal
@@ -58,9 +67,15 @@ const ProjectList = () => {
         />
       )}
 
-      {projects.map((project) => (
-        <ProjectCard key={project.id} project={project} />
-      ))}
+      <div className="projects-wrapper">
+        {projects.length === 0 ? (
+          <p className="no-projects">No projects found</p>
+        ) : (
+          projects.map((project) => (
+            <ProjectCard key={project.id} project={project} />
+          ))
+        )}
+      </div>
     </div>
   );
 };

@@ -1,6 +1,7 @@
 import { useState } from "react";
 import ExpenseList from "./ExpenseList";
 import AddExpenseForm from "./AddExpenseForm";
+import "../styles/ProjectCard.css";
 
 interface Project {
   id: number;
@@ -11,57 +12,89 @@ interface Project {
 
 const ProjectCard = ({ project }: { project: Project }) => {
   const [expanded, setExpanded] = useState(false);
-
-  // Totals tracked manually
   const [totalExpenses, setTotalExpenses] = useState(0);
-  const [remainingBudget, setRemainingBudget] = useState(project.estimatedBudget || 0);
+  const [remainingBudget, setRemainingBudget] = useState(
+    project.estimatedBudget || 0,
+  );
+  const [refreshTrigger, setRefreshTrigger] = useState(0);
+
+  const formatCurrency = (amount: number) => {
+    return `AED ${amount.toLocaleString("en-US", { minimumFractionDigits: 3, maximumFractionDigits: 3 })}`;
+  };
 
   return (
-    <div
-      style={{
-        border: "1px solid #ccc",
-        padding: "10px",
-        marginBottom: "10px",
-      }}
-    >
+    <div className="project-card">
       <div
+        className="project-card-header"
         onClick={() => setExpanded(!expanded)}
-        style={{ cursor: "pointer", backgroundColor: "#eee", padding: "5px" }}
       >
-        <h3>{project.name || "Untitled Project"}</h3>
-        <p>Client: {project.clientName || "Unknown"}</p>
-        <p>Estimated Budget: {project.estimatedBudget || 0}</p>
-        <p>Total Expenses: {totalExpenses}</p>
-        <p>Remaining Budget: {remainingBudget}</p>
+        <div className="project-info">
+          <div className="chevron-container">
+            <span className={`chevron ${expanded ? "expanded" : ""}`}>›</span>
+          </div>
+          <div className="project-details">
+            <h3 className="project-name">
+              {project.name || "Untitled Project"}
+            </h3>
+            <p className="client-name">{project.clientName || "Unknown"}</p>
+          </div>
+        </div>
+        <div className="budget-summary">
+          <div className="budget-item">
+            <span className="budget-label">Estimated Budget</span>
+            <span className="budget-value">
+              {formatCurrency(project.estimatedBudget || 0)}
+            </span>
+          </div>
+          <div className="budget-item">
+            <span className="budget-label">Remaining Budget</span>
+            <span className="budget-value remaining">
+              {formatCurrency(remainingBudget)}
+            </span>
+          </div>
+        </div>
       </div>
 
       {expanded && (
-        <div
-          style={{
-            marginTop: "10px",
-            padding: "10px",
-            background: "#f9f9f9",
-          }}
-        >
-          {/* Expense list */}
+        <div className="project-card-content">
+          <div className="budget-details">
+            <div className="budget-detail-item">
+              <span className="detail-label">Estimated Budget</span>
+              <span className="detail-value">
+                {formatCurrency(project.estimatedBudget || 0)}
+              </span>
+            </div>
+            <div className="budget-detail-item">
+              <span className="detail-label">Total Expenses</span>
+              <span className="detail-value">
+                {formatCurrency(totalExpenses)}
+              </span>
+            </div>
+            <div className="budget-detail-item">
+              <span className="detail-label">Remaining Budget</span>
+              <span className="detail-value remaining">
+                {formatCurrency(remainingBudget)}
+              </span>
+            </div>
+          </div>
+
           <ExpenseList
+            key={refreshTrigger}
             projectId={project.id}
             onExpensesChange={(expenses) => {
-              // Calculate totals manually whenever expenses change
-              const total = expenses.reduce((sum, e) => sum + Number(e.amount || 0), 0);
+              const total = expenses.reduce(
+                (sum, e) => sum + Number(e.amount || 0),
+                0,
+              );
               setTotalExpenses(total);
               setRemainingBudget((project.estimatedBudget || 0) - total);
             }}
           />
 
-          {/* Add expense form */}
           <AddExpenseForm
             projectId={project.id}
-            onExpenseAdded={(newExpense) => {
-              // Update totals immediately
-              const amount = Number(newExpense.amount || 0);
-              setTotalExpenses((prev) => prev + amount);
-              setRemainingBudget((prev) => prev - amount);
+            onExpenseAdded={() => {
+              setRefreshTrigger((prev) => prev + 1);
             }}
           />
         </div>

@@ -1,8 +1,10 @@
 import { useState } from "react";
+import "../styles/addProjectModal.css";
+import { type Project } from "../types";
 
 interface Props {
   onClose: () => void;
-  onProjectCreated: (project: any) => void; 
+  onProjectCreated: (project: Project) => void;
 }
 
 const AddProjectModal = ({ onClose, onProjectCreated }: Props) => {
@@ -13,6 +15,11 @@ const AddProjectModal = ({ onClose, onProjectCreated }: Props) => {
   });
 
   const handleSubmit = async () => {
+    if (!formData.name || !formData.clientName || !formData.estimatedBudget) {
+      alert("Please fill in all fields");
+      return;
+    }
+
     try {
       const res = await fetch("http://localhost:3001/projects", {
         method: "POST",
@@ -27,71 +34,85 @@ const AddProjectModal = ({ onClose, onProjectCreated }: Props) => {
       if (!res.ok) throw new Error("Failed to create project");
 
       const createdProject = await res.json();
-      onProjectCreated(createdProject); 
-      onClose(); 
+      onProjectCreated(createdProject);
+      onClose();
     } catch (err) {
       console.error(err);
       alert("Error creating project");
     }
   };
 
+  const handleBackdropClick = (e: React.MouseEvent) => {
+    if (e.target === e.currentTarget) {
+      onClose();
+    }
+  };
+
   return (
-    <div
-      style={{
-        position: "fixed",
-        top: 0,
-        left: 0,
-        right: 0,
-        bottom: 0,
-        backgroundColor: "rgba(0,0,0,0.5)",
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-      }}
-    >
-      <div
-        style={{
-          background: "white",
-          padding: "20px",
-          borderRadius: "8px",
-          minWidth: "300px",
-        }}
-      >
-        <h3>Add New Project</h3>
+    <div className="modal-backdrop" onClick={handleBackdropClick}>
+      <div className="modal-container">
+        <div className="modal-header">
+          <h3>Add Project</h3>
+          <button className="btn-close" onClick={onClose}>
+            ✕
+          </button>
+        </div>
 
-        <input
-          type="text"
-          placeholder="Project Name"
-          value={formData.name}
-          onChange={(e) =>
-            setFormData((prev) => ({ ...prev, name: e.target.value }))
-          }
-          style={{ display: "block", marginBottom: "10px", width: "100%" }}
-        />
+        <div className="modal-body">
+          <div className="modal-form-group">
+            <label htmlFor="projectName">Project Name</label>
+            <input
+              id="projectName"
+              type="text"
+              placeholder="Enter project name"
+              value={formData.name}
+              onChange={(e) =>
+                setFormData((prev) => ({ ...prev, name: e.target.value }))
+              }
+              className="modal-input"
+            />
+          </div>
 
-        <input
-          type="text"
-          placeholder="Client Name"
-          value={formData.clientName}
-          onChange={(e) =>
-            setFormData((prev) => ({ ...prev, clientName: e.target.value }))
-          }
-          style={{ display: "block", marginBottom: "10px", width: "100%" }}
-        />
+          <div className="modal-form-group">
+            <label htmlFor="clientName">Client Name</label>
+            <input
+              id="clientName"
+              type="text"
+              placeholder="Enter client name"
+              value={formData.clientName}
+              onChange={(e) =>
+                setFormData((prev) => ({ ...prev, clientName: e.target.value }))
+              }
+              className="modal-input"
+            />
+          </div>
 
-        <input
-          type="number"
-          placeholder="Estimated Budget"
-          value={formData.estimatedBudget}
-          onChange={(e) =>
-            setFormData((prev) => ({ ...prev, estimatedBudget: e.target.value }))
-          }
-          style={{ display: "block", marginBottom: "10px", width: "100%" }}
-        />
+          <div className="modal-form-group">
+            <label htmlFor="estimatedBudget">Estimated Budget (AED)</label>
+            <input
+              id="estimatedBudget"
+              type="number"
+              placeholder="0.00"
+              value={formData.estimatedBudget}
+              onChange={(e) =>
+                setFormData((prev) => ({
+                  ...prev,
+                  estimatedBudget: e.target.value,
+                }))
+              }
+              className="modal-input"
+              step="0.001"
+            />
+          </div>
+        </div>
 
-        <div style={{ display: "flex", justifyContent: "space-between" }}>
-          <button onClick={handleSubmit}>Save</button>
-          <button onClick={onClose}>Cancel</button>
+        <div className="modal-footer">
+          <button className="btn-modal-cancel" onClick={onClose}>
+            Cancel
+          </button>
+          <button className="btn-modal-submit" onClick={handleSubmit}>
+            Save
+          </button>
         </div>
       </div>
     </div>

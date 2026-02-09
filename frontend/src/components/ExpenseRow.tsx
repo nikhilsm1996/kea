@@ -1,4 +1,6 @@
 import { useState } from "react";
+import { FiEdit2, FiTrash2 } from "react-icons/fi";
+import "../styles/ExpenseRow.css";
 
 interface Expense {
   id: number;
@@ -10,7 +12,7 @@ interface Expense {
 interface Props {
   expense: Expense;
   onUpdate: (updated: Expense) => void;
-  onDelete: (id: number) => void; 
+  onDelete: (id: number) => void;
 }
 
 const ExpenseRow = ({ expense, onUpdate, onDelete }: Props) => {
@@ -20,6 +22,21 @@ const ExpenseRow = ({ expense, onUpdate, onDelete }: Props) => {
     amount: expense.amount,
     category: expense.category,
   });
+
+  const formatCurrency = (amount: number) => {
+    return `AED ${amount.toLocaleString("en-US", { minimumFractionDigits: 3, maximumFractionDigits: 3 })}`;
+  };
+
+  const getCategoryColor = (category: string) => {
+    switch (category.toLowerCase()) {
+      case "material":
+        return "#d4a574";
+      case "labor":
+        return "#d4a574";
+      default:
+        return "#999";
+    }
+  };
 
   const handleSave = async () => {
     try {
@@ -45,6 +62,9 @@ const ExpenseRow = ({ expense, onUpdate, onDelete }: Props) => {
   };
 
   const handleDelete = async () => {
+    if (!window.confirm("Are you sure you want to delete this expense?"))
+      return;
+
     try {
       const res = await fetch(`http://localhost:3001/expenses/${expense.id}`, {
         method: "DELETE",
@@ -61,40 +81,74 @@ const ExpenseRow = ({ expense, onUpdate, onDelete }: Props) => {
 
   if (isEditing) {
     return (
-      <div style={{ borderBottom: "1px solid #ddd", padding: "5px 0" }}>
+      <div className="expense-row editing">
         <input
           type="text"
+          className="edit-input description"
           value={formData.description}
-          onChange={(e) => setFormData((prev) => ({ ...prev, description: e.target.value }))}
+          onChange={(e) =>
+            setFormData((prev) => ({ ...prev, description: e.target.value }))
+          }
           placeholder="Description"
         />
-        <input
-          type="number"
-          value={formData.amount}
-          onChange={(e) => setFormData((prev) => ({ ...prev, amount: Number(e.target.value) }))}
-          placeholder="Amount"
-        />
         <select
+          className="edit-select"
           value={formData.category}
-          onChange={(e) => setFormData((prev) => ({ ...prev, category: e.target.value }))}
+          onChange={(e) =>
+            setFormData((prev) => ({ ...prev, category: e.target.value }))
+          }
         >
           <option value="material">Material</option>
           <option value="labor">Labor</option>
           <option value="other">Other</option>
         </select>
-        <button onClick={handleSave}>Save</button>
-        <button onClick={() => setIsEditing(false)}>Cancel</button>
+        <input
+          type="number"
+          className="edit-input amount"
+          value={formData.amount}
+          onChange={(e) =>
+            setFormData((prev) => ({ ...prev, amount: Number(e.target.value) }))
+          }
+          placeholder="Amount"
+        />
+        <div className="edit-actions">
+          <button className="btn-save" onClick={handleSave}>
+            Save
+          </button>
+          <button className="btn-cancel" onClick={() => setIsEditing(false)}>
+            Cancel
+          </button>
+        </div>
       </div>
     );
   }
 
   return (
-    <div style={{ borderBottom: "1px solid #ddd", padding: "5px 0" }}>
-      <p>Description: {expense.description}</p>
-      <p>Amount: {expense.amount}</p>
-      <p>Category: {expense.category}</p>
-      <button onClick={() => setIsEditing(true)}>Edit</button>
-      <button onClick={handleDelete}>Delete</button>
+    <div className="expense-row">
+      <div className="expense-cell description">{expense.description}</div>
+      <div className="expense-cell category">
+        <span
+          className="category-badge"
+          style={{ color: getCategoryColor(expense.category) }}
+        >
+          {expense.category.charAt(0).toUpperCase() + expense.category.slice(1)}
+        </span>
+      </div>
+      <div className="expense-cell amount">
+        {formatCurrency(expense.amount)}
+      </div>
+      <div className="expense-actions">
+        <button
+          className="btn-icon"
+          onClick={() => setIsEditing(true)}
+          title="Edit"
+        >
+          <FiEdit2 />
+        </button>
+        <button className="btn-icon" onClick={handleDelete} title="Delete">
+          <FiTrash2 />
+        </button>
+      </div>
     </div>
   );
 };
