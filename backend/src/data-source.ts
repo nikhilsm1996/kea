@@ -1,7 +1,7 @@
 import "reflect-metadata";
 import { DataSource } from "typeorm";
-// import { Project } from "./entities/Project";
-// import { Expense } from "./entities/Expense";
+import { Project } from "./entities/Project";
+import { Expense } from "./entities/Expense";
 
 export const AppDataSource = new DataSource({
   type: "postgres",
@@ -10,7 +10,7 @@ export const AppDataSource = new DataSource({
   username: "postgres",
   password: "pgadmin",
   database: "kea_db",
-  synchronize: true, // OK for machine test
+  synchronize: true, 
   logging: false,
-//   entities: [Project, Expense],
+  entities: [Project, Expense],
 });
